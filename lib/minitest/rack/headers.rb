@@ -32,7 +32,7 @@ module Minitest
         def assert_header_content_encoding(encoding_str)
           assert_header("Content-Encoding", encoding_str)
         end
-        alias :assert_header_content_encoding, :assert_header_encoding 
+        alias :assert_header_content_encoding :assert_header_encoding 
 
         # Content-Language - The language the content is in
         # 
