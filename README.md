@@ -28,6 +28,22 @@ TODO: Write usage instructions here
 
 
 
+## Requirements
+
+* [json](https://github.com/flori/json)
+* [rack-test](https://github.com/brynary/rack-test)
+* [minitest](https://github.com/seattlerb/minitest) ~> 5.0
+
+
+
+## Acknowledgements
+
+Inspiration for this gem was taken from the [`rack-minitest`](https://github.com/brandonweiss/rack-minitest) gem by Brandon Weiss
+
+Copyright (c) 2012 Brandon Weiss and released under the MIT license.
+
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
