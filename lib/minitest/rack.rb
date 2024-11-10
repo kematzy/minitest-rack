@@ -23,3 +23,4 @@ module Minitest
   end
 end
 
+require 'minitest/rack/headers'
