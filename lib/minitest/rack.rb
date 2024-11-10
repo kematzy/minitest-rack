@@ -8,6 +8,13 @@ require 'rack/test'
 module Minitest
   # Module containing test assertions for HTTP response bodies
   module Assertions
+    # Assert that the response body matches the expected value
+    #
+    # @param res [String] The expected response body
+    #
+    # @return [Boolean] true if the assertion passes
+    #
+    # @raise [Minitest::Assertion] if the response body doesn't match
     def assert_body(res)
       msg = "Expected response to be '#{res}', but was '#{last_response.body}'"
 
