@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# reopening to add validations functionality
 module Minitest
   module Rack
     module Headers

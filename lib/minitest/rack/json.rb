@@ -1,6 +1,9 @@
-require "rack/test"
-require "json"
+# frozen_string_literal: true
 
+require 'rack/test'
+require 'json'
+
+# reopening to add validations functionality
 module Minitest
   module Rack
     module JSON

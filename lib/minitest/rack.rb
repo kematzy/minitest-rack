@@ -1,25 +1,25 @@
-require "minitest"
-require "minitest/rack/version"
-require "rack/test"
+# frozen_string_literal: true
 
+require 'minitest'
+require 'minitest/rack/version'
+require 'rack/test'
+
+# reopening to add validations functionality
 module Minitest
-  module Rack
-    module Body
-      module Assertions
+  # Module containing test assertions for HTTP response bodies
+  module Assertions
+    def assert_body(res)
+      msg = "Expected response to be '#{res}', but was '#{last_response.body}'"
 
-        # 
-        # 
-        # 
-        def assert_body(res)
-          assert_equal(last_response.body, res, "Expected response to be '#{res}', but was '#{last_response.body}'")
-        end
-      
-      end
+      assert_equal(last_response.body, res, msg)
+    end
+    # /module Assertions
+
+    # add support for Spec syntax
+    module Expectations
+      # TODO: figure out how to use and test this
+      # infect_an_assertion :assert_body, :must_have_body, :reverse
     end
   end
 end
 
-# include the assertions into Minitest
-class Minitest::Test
-  include Minitest::Rack::Body::Assertions
-end

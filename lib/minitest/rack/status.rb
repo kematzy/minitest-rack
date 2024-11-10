@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+require 'rack/test'
+
+# reopening to add validations functionality
 module Minitest
   module Rack
     module Status
