@@ -1,41 +1,44 @@
+# frozen_string_literal: true
 
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path('lib', __dir__)
+
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "minitest/rack/version"
+
+require 'minitest/rack/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "minitest-rack"
+  spec.name          = 'minitest-rack'
   spec.version       = Minitest::Rack::VERSION
-  spec.authors       = ["Kematzy"]
-  spec.email         = ["kematzy@gmail.com"]
+  spec.authors       = ['Kematzy']
+  spec.email         = ['kematzy@gmail.com']
 
-  spec.summary       = %q{Minitest & rack-test convenience assertions/expectations for DRY'er faster testing.}
-  spec.description   = %q{Save time and energy by writing short effecient obvious assertions/expectations with Rack-test when using Minitest.}
-  spec.homepage      = "https://github.com/kematzy/minitest-rack"
-  spec.license       = "MIT"
+  spec.summary       = "Minitest & rack-test convenience assertions/expectations for DRY'er faster testing."
+  spec.description   = 'Save time and energy by writing short effecient obvious assertions/expectations with Rack-test when using Minitest.'
+  spec.homepage      = 'https://github.com/kematzy/minitest-rack'
+  spec.license       = 'MIT'
+  spec.required_ruby_version = '>= 3.0.0'
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against " \
-      "public gem pushes."
-  end
+  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
+  # delete this section to allow pushing this gem to any host.
+  # if spec.respond_to?(:metadata)
+  #   spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
+  # else
+  #   raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
+  # end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
-  spec.bindir        = "exe"
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|features)/}) }
+  spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
-  spec.add_dependency "minitest", "~> 5.0"
-  spec.add_dependency "rack-test"
-  spec.add_dependency "json"
+  spec.platform         = Gem::Platform::RUBY
+  spec.extra_rdoc_files = ['README.md', 'LICENSE.txt']
+  spec.rdoc_options += ['--quiet', '--line-numbers', '--inline-source', '--title',
+                        'Minitest::Rack: rack-test convenience assertions', '--main', 'README.md']
 
-  spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "simplecov"
-  spec.add_development_dependency "rubocop"
+  spec.add_dependency('json', '~> 2.8.1', '>= 2.8.0')
+  spec.add_dependency('minitest', '~> 5.25.0', '>= 5.20.0')
+  spec.add_dependency('rack-test', '~> 2.1.0', '>= 2.1.0')
+
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end
