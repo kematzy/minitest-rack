@@ -24,3 +24,4 @@ module Minitest
 end
 
 require 'minitest/rack/headers'
+require 'minitest/rack/json'
