@@ -2,6 +2,7 @@
 
 require_relative '../../spec_helper'
 
+# rubocop:disable Metrics/BlockLength
 describe Minitest::Assertions do
   include Rack::Test::Methods
 
@@ -10,13 +11,13 @@ describe Minitest::Assertions do
   describe '#assert_status(:status)' do
     let(:app) { ->(_env) { [200, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
 
       assert_status(200)
     end
 
-    it "fails when status does not match expected value" do
+    it 'fails when status does not match expected value' do
       get '/'
 
       err = assert_raises(Minitest::Assertion) do
@@ -31,7 +32,7 @@ describe Minitest::Assertions do
   describe '#assert_ok() - 200' do
     let(:app) { ->(_env) { [200, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
 
       assert_ok
@@ -42,7 +43,7 @@ describe Minitest::Assertions do
   describe '#assert_created() - 201' do
     let(:app) { ->(_env) { [201, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_created
     end
@@ -52,7 +53,7 @@ describe Minitest::Assertions do
   describe '#assert_accepted()' do
     let(:app) { ->(_env) { [202, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_accepted
     end
@@ -62,7 +63,7 @@ describe Minitest::Assertions do
   describe '#assert_no_content()' do
     let(:app) { ->(_env) { [204, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_no_content
     end
@@ -72,7 +73,7 @@ describe Minitest::Assertions do
   describe '#assert_reset_content()' do
     let(:app) { ->(_env) { [205, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_reset_content
     end
@@ -82,7 +83,7 @@ describe Minitest::Assertions do
   describe '#assert_partial_content()' do
     let(:app) { ->(_env) { [206, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_partial_content
     end
@@ -92,7 +93,7 @@ describe Minitest::Assertions do
   describe '#assert_multiple_choices()' do
     let(:app) { ->(_env) { [300, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_multiple_choices
     end
@@ -102,7 +103,7 @@ describe Minitest::Assertions do
   describe '#assert_moved_permanently()' do
     let(:app) { ->(_env) { [301, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_moved_permanently
     end
@@ -112,7 +113,7 @@ describe Minitest::Assertions do
   describe '#assert_found()' do
     let(:app) { ->(_env) { [302, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_found
     end
@@ -122,7 +123,7 @@ describe Minitest::Assertions do
   describe '#assert_not_modified()' do
     let(:app) { ->(_env) { [304, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_not_modified
     end
@@ -132,7 +133,7 @@ describe Minitest::Assertions do
   describe '#assert_use_proxy()' do
     let(:app) { ->(_env) { [305, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_use_proxy
     end
@@ -142,7 +143,7 @@ describe Minitest::Assertions do
   describe '#assert_switch_proxy()' do
     let(:app) { ->(_env) { [306, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_switch_proxy
     end
@@ -152,7 +153,7 @@ describe Minitest::Assertions do
   describe '#assert_temporary_redirect()' do
     let(:app) { ->(_env) { [307, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_temporary_redirect
     end
@@ -162,7 +163,7 @@ describe Minitest::Assertions do
   describe '#assert_permanent_redirect()' do
     let(:app) { ->(_env) { [308, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_permanent_redirect
     end
@@ -172,7 +173,7 @@ describe Minitest::Assertions do
   describe '#assert_bad_request()' do
     let(:app) { ->(_env) { [400, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_bad_request
     end
@@ -182,7 +183,7 @@ describe Minitest::Assertions do
   describe '#assert_unauthorized()' do
     let(:app) { ->(_env) { [401, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_unauthorized
     end
@@ -192,7 +193,7 @@ describe Minitest::Assertions do
   describe '#assert_forbidden()' do
     let(:app) { ->(_env) { [403, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_forbidden
     end
@@ -202,7 +203,7 @@ describe Minitest::Assertions do
   describe '#assert_not_found()' do
     let(:app) { ->(_env) { [404, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_not_found
     end
@@ -212,7 +213,7 @@ describe Minitest::Assertions do
   describe '#assert_method_not_allowed()' do
     let(:app) { ->(_env) { [405, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_method_not_allowed
     end
@@ -222,7 +223,7 @@ describe Minitest::Assertions do
   describe '#assert_not_acceptable()' do
     let(:app) { ->(_env) { [406, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_not_acceptable
     end
@@ -232,7 +233,7 @@ describe Minitest::Assertions do
   describe '#assert_proxy_authentication_required()' do
     let(:app) { ->(_env) { [407, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_proxy_authentication_required
     end
@@ -242,7 +243,7 @@ describe Minitest::Assertions do
   describe '#assert_request_timeout()' do
     let(:app) { ->(_env) { [408, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_request_timeout
     end
@@ -252,7 +253,7 @@ describe Minitest::Assertions do
   describe '#assert_unsupported_media_type()' do
     let(:app) { ->(_env) { [415, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_unsupported_media_type
     end
@@ -262,7 +263,7 @@ describe Minitest::Assertions do
   describe '#assert_unprocessable_entity()' do
     let(:app) { ->(_env) { [422, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_unprocessable_entity
     end
@@ -272,7 +273,7 @@ describe Minitest::Assertions do
   describe '#assert_too_many_requests()' do
     let(:app) { ->(_env) { [429, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_too_many_requests
     end
@@ -282,7 +283,7 @@ describe Minitest::Assertions do
   describe '#assert_internal_server_error()' do
     let(:app) { ->(_env) { [500, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_internal_server_error
     end
@@ -292,7 +293,7 @@ describe Minitest::Assertions do
   describe '#assert_not_implemented()' do
     let(:app) { ->(_env) { [501, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_not_implemented
     end
@@ -302,7 +303,7 @@ describe Minitest::Assertions do
   describe '#assert_bad_gateway()' do
     let(:app) { ->(_env) { [502, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_bad_gateway
     end
@@ -312,7 +313,7 @@ describe Minitest::Assertions do
   describe '#assert_service_unavailable()' do
     let(:app) { ->(_env) { [503, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_service_unavailable
     end
@@ -322,10 +323,11 @@ describe Minitest::Assertions do
   describe '#assert_loop_detected()' do
     let(:app) { ->(_env) { [508, {}, [body]] } }
 
-    it "passes when status matches expected value" do
+    it 'passes when status matches expected value' do
       get '/'
       assert_loop_detected
     end
   end
   # /#assert_loop_detected()
 end
+# rubocop:enable Metrics/BlockLength

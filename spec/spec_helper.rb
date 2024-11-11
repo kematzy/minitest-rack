@@ -69,6 +69,7 @@ module Minitest
     #   assert_has_key({"user" => {"name" => "John"}}, "user.name") # passes
     #   assert_has_key({"user" => {}}, "user.name") # fails
     #
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def assert_has_key(object, key_path, msg = nil)
       keys = key_path.to_s.split('.')
       current = object
@@ -95,6 +96,7 @@ module Minitest
 
       true
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     private
 

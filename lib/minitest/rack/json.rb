@@ -112,15 +112,17 @@ module Minitest
       data = json_data
       key = key.to_s
 
-      msg = "Expected response JSON data to include "
+      msg = 'Expected response JSON data to include '
 
       # handle wrong key value being passed
       if data.key?(key)
         msg << "'#{key}: #{model.to_json}', but was '#{data[key].to_json}'"
+
         assert_equal(model.values.to_json, data[key].to_json, msg)
       else
         msg << "key: '#{key}', but JSON is: '#{data}'"
-        assert_has_key data, "#{key}", msg
+
+        assert_has_key data, key, msg
       end
     end
 
@@ -136,15 +138,14 @@ module Minitest
       data = json_data
       key = key.to_s
 
-      msg = "Expected response JSON data to include "
+      msg = 'Expected response JSON data to include '
+      msg << "key: '#{key}', but JSON is '#{data}'"
 
       # handle the model being present
       if data.key?(key)
-        msg << "key: '#{key}', but JSON is '#{data}'"
         refute_empty(data[key], msg)
       else
-        msg << "key: '#{key}', but JSON is '#{data}'"
-        assert_has_key data, "#{key}", msg
+        assert_has_key data, key, msg
       end
     end
 
@@ -158,27 +159,32 @@ module Minitest
     #
     # @return [Boolean] true when the nested key exists and has a non-empty value
     #
+    # rubocop:disable Metrics/MethodLength
     def assert_json_model_key(model, key)
       data = json_data
       model = model.to_s
       key = key.to_s
 
-      msg = "Expected response JSON data to include "
+      msg = 'Expected response JSON data to include '
 
       # handle the model being present
       if data.key?(model)
         if data[model].key?(key)
-          msg = "life is great"
+          msg = 'life is great'
+
           refute_empty(data[model][key], msg)
         else
           msg << "model.key: '#{model}.#{key}', but it did not"
+
           assert_has_key data, "#{model}.#{key}", msg
         end
       else
         msg << "model: '#{model}', but it did not"
-        assert_has_key data, "#{model}", msg
+
+        assert_has_key data, model, msg
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Shortcut for sending GET requests as JSON
     #
@@ -239,16 +245,6 @@ module Minitest
     infect_an_assertion :assert_json_message, :must_have_json_message, :reverse
     infect_an_assertion :assert_json_key, :must_have_json_key, :reverse
     infect_an_assertion :assert_json_model, :must_have_json_model, :reverse
-    infect_an_assertion :assert_json_model, :must_have_json_model_key, :reverse
-
-    # def must_have_json_model(key, model)
-    #   data = ::JSON.parse(last_response.body)
-    #   expect(data[key.to_s]).must_equal(model.to_json)
-    # end
-
-    # def must_have_json_model_key(model, key)
-    #   data = ::JSON.parse(last_response.body)
-    #   expect(data[model][key]).wont_be_empty
-    # end
+    infect_an_assertion :assert_json_model_key, :must_have_json_model_key, :reverse
   end
 end

@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['kematzy@gmail.com']
 
   spec.summary       = "Minitest & rack-test convenience assertions/expectations for DRY'er faster testing."
-  spec.description   = 'Save time and energy by writing short effecient obvious assertions/expectations with Rack-test when using Minitest.'
+  spec.description   = 'Save time and energy by writing short effecient obvious assertions/expectations with rack/test'
   spec.homepage      = 'https://github.com/kematzy/minitest-rack'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 3.0.0'
