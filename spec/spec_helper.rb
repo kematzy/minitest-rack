@@ -51,3 +51,78 @@ class Minitest::HooksSpec
   end
 end
 # rubocop:enable Style/ClassAndModuleChildren
+
+# Add custom assertions
+module Minitest
+  module Assertions
+    # Asserts the presence of a key in a nested data structure
+    #
+    # @param object [Hash, Object] The object to search through for the key path
+    # @param key_path [String] A dot-separated path of keys to follow (e.g. "user.name.first")
+    # @param msg [String, nil] Optional custom error message if assertion fails
+    #
+    # @return [true] If the key path exists
+    #
+    # @raise [Minitest::Assertion] If the key path is not found
+    #
+    # @example
+    #   assert_has_key({"user" => {"name" => "John"}}, "user.name") # passes
+    #   assert_has_key({"user" => {}}, "user.name") # fails
+    #
+    def assert_has_key(object, key_path, msg = nil)
+      keys = key_path.to_s.split('.')
+      current = object
+
+      keys.each_with_index do |key, index|
+        key = key.to_sym if current.is_a?(Hash) && current.key?(key.to_sym)
+
+        unless current.respond_to?(:key?) && current.key?(key)
+          path_tried = keys[0..index].join('.')
+          full_path = key_path.to_s
+
+          error_message = msg || build_key_error_message(
+            object: object,
+            path_tried: path_tried,
+            full_path: full_path,
+            current_value: current
+          )
+
+          raise Minitest::Assertion, error_message
+        end
+
+        current = current[key]
+      end
+
+      true
+    end
+
+    private
+
+    # Builds a detailed error message for key path assertions
+    #
+    # @param object [Object] The complete object being checked
+    # @param path_tried [String] The portion of the key path that was valid
+    # @param full_path [String] The complete key path that was being searched for
+    # @param current_value [Object] The value where the key path search failed
+    #
+    # @return [String] A multi-line error message explaining what went wrong
+    #
+    def build_key_error_message(object:, path_tried:, full_path:, current_value:)
+      message = ["Expected to find key path '#{full_path}'"]
+      message << "Found valid path until '#{path_tried}'"
+      message << "Full object: #{object.inspect}"
+      message << "Stopped at value: #{current_value.inspect}"
+
+      if current_value.respond_to?(:key?)
+        message << "Available keys at this level: #{current_value.keys.inspect}"
+      end
+
+      message.join("\n")
+    end
+  end
+
+  module Expectations
+    infect_an_assertion :assert_has_key, :must_have_key, :reverse
+    infect_an_assertion :refute_has_key, :wont_have_key, :reverse
+  end
+end

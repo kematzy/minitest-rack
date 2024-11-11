@@ -386,38 +386,284 @@ describe Minitest::Assertions do
   # /#assert_json_message(:message)
 
   describe '#assert_json_model(:key, :model)' do
-    it 'should have some tests'
+    describe 'with valid data and response contains :user' do
+      let(:attrs) { { name: 'Joe Blogs', email: 'joe@email.com' } }
+      let(:user) { User.new(attrs) }
+      let(:app) { ->(_env) { [200, {}, [{ user: attrs, success: true }.to_json]] } }
+
+      it 'passes when passed the correct params' do
+        get '/'
+
+        _(assert_json_model('user', user)).must_equal true
+      end
+
+      it 'raises an ArgumentError when missing params' do
+        get '/'
+
+        assert_raises(ArgumentError) do
+          assert_json_model()
+        end
+
+        assert_raises(ArgumentError) do
+          assert_json_model('user')
+        end
+      end
+
+      it 'raises an error when passed invalid model {}' do
+        get '/'
+
+        err = _(-> { assert_json_model('user', {}) }).must_raise(Minitest::Assertion)
+
+        msg = "Expected response JSON data to include 'user: {}', "
+        msg << "but was '#{user.values.to_json}'"
+
+        _(err.message).must_match(msg)
+      end
+
+      it 'raises an error when passed incorrect key: :wrong' do
+        get '/'
+
+        err = _(-> { assert_json_model('wrong', user) }).must_raise(Minitest::Assertion)
+
+        msg = "Expected response JSON data to include key: 'wrong', but JSON is: "
+        msg << "'{\"user\"=>{\"name\"=>\"Joe Blogs\", \"email\"=>\"joe@email.com\"}, \"success\"=>true}'"
+
+        _(err.message).must_match(msg)
+      end
+    end
+    # /with valid data
+
+    describe 'with empty response data' do
+      let(:attrs) { { name: 'Joe Blogs', email: 'joe@email.com' } }
+      let(:user) { User.new(attrs) }
+      let(:app) { ->(_env) { [200, {}, [{}.to_json]] } }
+
+      it 'handles empty response data' do
+        get '/'
+
+        err = _(-> { assert_json_model('user', user) }).must_raise(Minitest::Assertion)
+
+        msg = "Expected response JSON data to include key: 'user', but JSON is: '{}'"
+
+        _(err.message).must_match(msg)
+      end
+    end
+    # /with empty response data
+
+    describe 'with nested data structures' do
+      let(:attrs) { { name: 'Joe Blogs', email: 'joe@email.com' } }
+      let(:user) { User.new(attrs) }
+      let(:body) { { nested: { test: true }, success: true, user: attrs } }
+      let(:app) { ->(_env) { [200, {}, [body.to_json]] } }
+
+      it 'passes when passed valid message' do
+        get '/'
+
+        _(assert_json_model('user', user)).must_equal true
+      end
+    end
+    # /with empty response data
   end
   # /#assert_json_model(:key, :model)
 
   describe '#assert_json_key(:key)' do
-    it 'should have some tests'
+    describe 'with valid data and response contains :user' do
+      let(:attrs) { { name: 'Joe Blogs', email: 'joe@email.com' } }
+      let(:app) { ->(_env) { [200, {}, [{ user: attrs, success: true }.to_json]] } }
+
+      it 'passes when passed the correct params' do
+        get '/'
+
+        _(assert_json_key('user')).must_equal true
+      end
+
+      it 'raises an error when passed incorrect key: :wrong' do
+        get '/'
+
+        err = _(-> { assert_json_key('wrong') }).must_raise(Minitest::Assertion)
+
+        msg = "Expected response JSON data to include key: 'wrong', "
+        msg << "but JSON is '{\"user\"=>{\"name\"=>\"Joe Blogs\", \"email\"=>\"joe@email.com\"}, \"success\"=>true}'"
+
+        _(err.message).must_match(msg)
+      end
+    end
   end
   # /#assert_json_key(:key)
 
   describe '#assert_json_model_key(:model, :key)' do
-    it 'should have some tests'
+    describe 'with valid data and response contains :user' do
+      let(:attrs) { { name: 'Joe Blogs', email: 'joe@email.com' } }
+      let(:user) { User.new(attrs) }
+      let(:app) { ->(_env) { [200, {}, [{ user: attrs, success: true }.to_json]] } }
+
+      it 'passes when passed the correct params' do
+        get '/'
+
+        _(assert_json_model_key('user', 'email')).must_equal true
+      end
+
+      it 'raises an ArgumentError when missing params' do
+        get '/'
+
+        assert_raises(ArgumentError) do
+          assert_json_model_key()
+        end
+
+        assert_raises(ArgumentError) do
+          assert_json_model_key('user')
+        end
+      end
+
+      it 'raises an error when passed invalid :model' do
+        get '/'
+
+        err = _(-> { assert_json_model_key('wrong', 'email') }).must_raise(Minitest::Assertion)
+
+        msg = "Expected response JSON data to include model: 'wrong', but it did not"
+
+        _(err.message).must_match(msg)
+      end
+
+      it 'raises an error when passed invalid :key' do
+        get '/'
+
+        err = _(-> { assert_json_model_key('user', 'wrong') }).must_raise(Minitest::Assertion)
+
+        msg = "Expected response JSON data to include model.key: 'user.wrong', but it did not"
+
+        _(err.message).must_match(msg)
+      end
+
+      # it 'raises an error when passed incorrect key: :wrong' do
+      #   get '/'
+
+      #   err = _(-> { assert_json_model_key('user', 'wrong') }).must_raise(Minitest::Assertion)
+
+      #   msg = "Expected response JSON data to include the key: 'wrong', but it did not"
+
+      #   _(err.message).must_match(msg)
+      # end
+    end
+    # /with valid data
   end
   # /#assert_json_model_key(:model, :key)
 
   describe '#get_json(:path, :params, :headers)' do
-    it 'should have some tests'
+    let(:app) { ->(_env) {
+      [200, { 'Content-Type' => 'application/json' }, [{success: true}.to_json]] }
+    }
+
+    it 'makes a GET request with JSON data' do
+      get_json('/', { id: 1 })
+
+      _(last_request.get?).must_equal true
+      _(last_request.url).must_equal "http://example.org/?%7B%22id%22%3A1%7D"
+      _(last_response.content_type).must_equal 'application/json'
+      _(last_response.body).must_equal("{\"success\":true}")
+    end
   end
   # /#get_json(:path, :params, :headers)
 
   describe '#post_json(:path, :params, :headers)' do
-    it 'should have some tests'
+    let(:app) {
+      ->(_env) {
+        [200, { 'Content-Type' => 'application/json' }, [{success: true}.to_json]]
+      }
+    }
+
+    it 'makes a POST request with JSON data' do
+      post_json('/test', { name: 'test' })
+
+      _(last_request.post?).must_equal true
+      _(last_request.body.read).must_equal({ name: 'test' }.to_json)
+      _(last_response.content_type).must_equal 'application/json'
+      _(last_response.body).must_equal("{\"success\":true}")
+    end
   end
   # /#post_json(:path, :params, :headers)
 
   describe '#put_json(:path, :params, :headers)' do
-    it 'should have some tests'
+    let(:app) {
+      ->(_env) {
+        [200, { 'Content-Type' => 'application/json' }, [{success: true}.to_json]]
+      }
+    }
+
+    it 'makes a PUT request with JSON data' do
+      put_json('/test', { id: 1, name: 'test' })
+
+      _(last_request.put?).must_equal true
+      _(last_request.body.read).must_equal({ id: 1, name: 'test' }.to_json)
+      _(last_response.content_type).must_equal 'application/json'
+    end
   end
   # /#put_json(:path, :params, :headers)
 
   describe '#delete_json(:path, :params, :headers)' do
-    it 'should have some tests'
+    let(:app) {
+      ->(_env) {
+        [200, { 'Content-Type' => 'application/json' }, [{success: true}.to_json]]
+      }
+    }
+
+    it 'makes a DELETE request with JSON data' do
+      delete_json('/test', { id: 1 })
+
+      _(last_request.delete?).must_equal true
+      _(last_request.body.read).must_equal({id: 1}.to_json)
+      _(last_response.content_type).must_equal 'application/json'
+    end
   end
   # /#delete_json(:path, :params, :headers)
+
+  describe '#json_request(:verb, :path, :params, :headers)' do
+    let(:headers) { {'Content-Type' => 'application/json'} }
+    let(:app) { ->(_env) {
+      [200, { 'Content-Type' => 'application/json' }, [{success: true}.to_json]] }
+    }
+
+    it 'makes a GET request with JSON data' do
+      json_request(:get, '/', { id: 1 })
+
+      _(last_request.get?).must_equal true
+      _(last_request.url).must_equal "http://example.org/?%7B%22id%22%3A1%7D"
+      _(last_response.content_type).must_equal 'application/json'
+      _(last_response.body).must_equal("{\"success\":true}")
+    end
+
+    it 'makes a POST request with JSON data' do
+      json_request(:post, '/test', { name: 'test' })
+
+      _(last_request.post?).must_equal true
+      _(last_request.body.read).must_equal({ name: 'test' }.to_json)
+      _(last_response.content_type).must_equal 'application/json'
+      _(last_response.body).must_equal("{\"success\":true}")
+    end
+
+    it 'makes a PUT request with JSON data' do
+      json_request(:put, '/test', { id: 1, name: 'test' })
+
+      _(last_request.put?).must_equal true
+      _(last_request.body.read).must_equal({ id: 1, name: 'test' }.to_json)
+      _(last_response.content_type).must_equal 'application/json'
+    end
+
+    it 'makes a DELETE request with JSON data' do
+      json_request(:delete, '/test', {id: 1})
+
+      _(last_request.delete?).must_equal true
+      _(last_request.body.read).must_equal({id: 1}.to_json)
+      _(last_response.content_type).must_equal 'application/json'
+    end
+
+    it 'merges custom headers' do
+      custom_headers = {'X-Custom' => 'value'}
+      json_request(:get, '/test', {}, custom_headers)
+
+      _(last_request.get_header('X-Custom')).must_equal 'value'
+      _(last_response.content_type).must_equal 'application/json'
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength
