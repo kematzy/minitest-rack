@@ -7,7 +7,6 @@ require 'rake/testtask'
 RuboCop::RakeTask.new
 
 Rake::TestTask.new(:spec) do |t|
-  ENV['TESTOPTS'] = '--color'
   t.libs << 'spec'
   t.libs << 'lib'
   t.test_files = FileList['spec/**/*_spec.rb']
