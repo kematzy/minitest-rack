@@ -1,6 +1,10 @@
+<!-- markdownlint-disable MD013 MD033 -->
+
 # Minitest::Rack
 
-Minitest & rack-test convenience assertions/expectations for DRY'er faster testing.
+[![Ruby](https://github.com/kematzy/minitest-rack/actions/workflows/ruby.yml/badge.svg?branch=master)](https://github.com/kematzy/minitest-rack/actions/workflows/ruby.yml) - [![Gem Version](https://badge.fury.io/rb/minitest-rack.svg)](https://badge.fury.io/rb/minitest-rack) - [![Minitest Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop-minitest)
+
+Coverage: **100%**
 
 [Minitest](https://github.com/seattlerb/minitest) & [rack-test](https://github.com/rack/rack-test)
 convenience assertions/expectations for DRY'er faster testing.
