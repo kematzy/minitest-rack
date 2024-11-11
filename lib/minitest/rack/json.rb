@@ -2,6 +2,8 @@
 
 require 'rack/test'
 require 'json'
+require 'minitest/assertions'
+require 'minitest/spec'
 
 # reopening to add validations functionality
 module Minitest

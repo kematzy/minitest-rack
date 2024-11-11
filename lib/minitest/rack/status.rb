@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'rack/test'
+require 'minitest/assertions'
+require 'minitest/spec'
 
 # reopening to add validations functionality
 module Minitest
@@ -503,27 +505,20 @@ module Minitest
     infect_an_assertion :assert_accepted, :must_be_accepted, :reverse
     infect_an_assertion :assert_no_content, :must_be_no_content, :reverse
     infect_an_assertion :assert_moved_permanently, :must_be_moved_permanently, :reverse
-
     infect_an_assertion :assert_bad_request, :must_be_bad_request, :reverse
     infect_an_assertion :assert_unauthorized, :must_be_unauthorized, :reverse
     infect_an_assertion :assert_forbidden, :must_be_forbidden, :reverse
     infect_an_assertion :assert_not_found, :must_be_not_found, :reverse
     infect_an_assertion :assert_method_not_allowed, :must_be_method_not_allowed, :reverse
     infect_an_assertion :assert_not_acceptable, :must_be_not_acceptable, :reverse
-    infect_an_assertion :assert_method_not_allowed, :must_be_method_not_allowed, :reverse
     infect_an_assertion :assert_request_timeout, :must_be_request_timeout, :reverse
-    infect_an_assertion :assert_unsupported_media_type, :must_be_unsupported_media_type,
-                        :reverse
-    infect_an_assertion :assert_unprocessable_entity, :must_be_unprocessable_entity,
-                        :reverse
+    infect_an_assertion :assert_unsupported_media_type, :must_be_unsupported_media_type, :reverse
+    infect_an_assertion :assert_unprocessable_entity, :must_be_unprocessable_entity, :reverse
     infect_an_assertion :assert_too_many_requests, :must_be_too_many_requests, :reverse
-
-    infect_an_assertion :assert_internal_server_error, :must_be_internal_server_error,
-                        :reverse
+    infect_an_assertion :assert_internal_server_error, :must_be_internal_server_error, :reverse
     infect_an_assertion :assert_not_implemented, :must_be_not_implemented, :reverse
     infect_an_assertion :assert_bad_gateway, :must_be_bad_gateway, :reverse
-    infect_an_assertion :assert_service_unavailable, :must_be_service_unavailable,
-                        :reverse
+    infect_an_assertion :assert_service_unavailable, :must_be_service_unavailable, :reverse
     infect_an_assertion :assert_loop_detected, :must_be_loop_detected, :reverse
   end
 end
