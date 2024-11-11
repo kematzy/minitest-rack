@@ -45,6 +45,13 @@ group :development do
   # DOCS: https://github.com/rubocop/rubocop-rake
   gem 'rubocop-rake', require: false
 
+  # Sequel: The Database Toolkit for Ruby
+  # DOCS: https://github.com/jeremyevans/sequel/
+  gem 'sequel'
+  # SQLite3 interface for Ruby
+  # DOCS: https://github.com/sparklemotion/sqlite3-ruby
+  gem 'sqlite3'
+
   # Code coverage for Ruby
   # DOCS: https://github.com/simplecov-ruby/simplecov
   gem 'simplecov'
