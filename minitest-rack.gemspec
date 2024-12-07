@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.rdoc_options += ['--quiet', '--line-numbers', '--inline-source', '--title',
                         'Minitest::Rack: rack-test convenience assertions', '--main', 'README.md']
 
-  spec.add_dependency('json', '~> 2.8.1', '>= 2.8.0')
+  spec.add_dependency('json', '>= 2.8.1', '< 2.10.0')
   spec.add_dependency('minitest', '~> 5.25.0', '>= 5.20.0')
   spec.add_dependency('rack-test', '~> 2.1.0', '>= 2.1.0')
 
